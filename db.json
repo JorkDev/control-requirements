@@ -1,0 +1,35 @@
+{
+  "requerimientos": [
+    {
+      "id": 1734720865673,
+      "titulo": "Revisión de Documentos",
+      "descripcion": "Revisión de Documentos",
+      "estimado": "5",
+      "usuario": "Jarez Eduardo",
+      "area": "Archivo",
+      "estado": "Completado",
+      "fechaInicio": "2024-12-21",
+      "fechaCierre": "2024-12-22",
+      "puntosDeControl": [
+        {
+          "fecha": "2024-12-22",
+          "descripcion": "Eduardo menciona que aún no termina con el cierre del requerimiento, tuvo fallas al momento de realizar sus pruebas unitarias y requiere de más tiempo, según menciona podría culminarse al medio día del siguiente día.",
+          "horasAdicionales": "4",
+          "nuevaFecha": "2024-12-23"
+        },
+        {
+          "fecha": "2024-12-23",
+          "descripcion": "Hoy en la consulta sobre el estado, Eduardo recalca pudo culminar con las pruebas y también hizo una prueba exacta con el usuario, menciona que aún se demorará en reafirmar unos detalles lo cuál le tomará el resto del día.",
+          "horasAdicionales": "8",
+          "nuevaFecha": "2024-12-24"
+        },
+        {
+          "fecha": "2024-12-24",
+          "descripcion": "Eduardo finalmente completó el requerimiento, se hicieron pruebas en múltiples casos y el usuario confirmó a través de un correo electrónico que todo estaba yendo bien, se cierra el requerimiento.",
+          "horasAdicionales": null,
+          "nuevaFecha": null
+        }
+      ]
+    }
+  ]
+}

@@ -3,33 +3,112 @@
     {
       "id": 1734720865673,
       "titulo": "Revisión de Documentos",
-      "descripcion": "Revisión de Documentos",
+      "descripcion": "Revisión de documentos administrativos.",
       "estimado": "5",
       "usuario": "Jarez Eduardo",
       "area": "Archivo",
       "estado": "Completado",
       "fechaInicio": "2024-12-21",
-      "fechaCierre": "2024-12-22",
-      "puntosDeControl": [
-        {
-          "fecha": "2024-12-22",
-          "descripcion": "Eduardo menciona que aún no termina con el cierre del requerimiento, tuvo fallas al momento de realizar sus pruebas unitarias y requiere de más tiempo, según menciona podría culminarse al medio día del siguiente día.",
-          "horasAdicionales": "4",
-          "nuevaFecha": "2024-12-23"
-        },
-        {
-          "fecha": "2024-12-23",
-          "descripcion": "Hoy en la consulta sobre el estado, Eduardo recalca pudo culminar con las pruebas y también hizo una prueba exacta con el usuario, menciona que aún se demorará en reafirmar unos detalles lo cuál le tomará el resto del día.",
-          "horasAdicionales": "8",
-          "nuevaFecha": "2024-12-24"
-        },
-        {
-          "fecha": "2024-12-24",
-          "descripcion": "Eduardo finalmente completó el requerimiento, se hicieron pruebas en múltiples casos y el usuario confirmó a través de un correo electrónico que todo estaba yendo bien, se cierra el requerimiento.",
-          "horasAdicionales": null,
-          "nuevaFecha": null
-        }
-      ]
+      "fechaCierre": "2024-12-22"
+    },
+    {
+      "id": 1734720865674,
+      "titulo": "Soporte de Red",
+      "descripcion": "Configuración de la red de oficina.",
+      "estimado": "8",
+      "usuario": "Chavez Henry",
+      "area": "Soporte",
+      "estado": "Pendiente",
+      "fechaInicio": "2024-12-15",
+      "fechaCierre": null
+    },
+    {
+      "id": 1734720865675,
+      "titulo": "Balance Financiero",
+      "descripcion": "Preparación del balance financiero anual.",
+      "estimado": "12",
+      "usuario": "Julca Victor",
+      "area": "Contabilidad",
+      "estado": "En Proceso",
+      "fechaInicio": "2024-12-10",
+      "fechaCierre": null
+    },
+    {
+      "id": 1734720865676,
+      "titulo": "Actualización de Software",
+      "descripcion": "Actualización de herramientas de gestión.",
+      "estimado": "6",
+      "usuario": "Argote Wilfredo",
+      "area": "Sistemas",
+      "estado": "Completado",
+      "fechaInicio": "2024-12-05",
+      "fechaCierre": "2024-12-06"
+    },
+    {
+      "id": 1734720865677,
+      "titulo": "Planificación Estratégica",
+      "descripcion": "Revisión y planificación de estrategias.",
+      "estimado": "10",
+      "usuario": "Jeri Héctor",
+      "area": "Gerencia",
+      "estado": "En Proceso",
+      "fechaInicio": "2024-12-01",
+      "fechaCierre": null
+    },
+    {
+      "id": 1734720865678,
+      "titulo": "Entrega de Materiales",
+      "descripcion": "Supervisión de entrega de materiales.",
+      "estimado": "4",
+      "usuario": "Quintana Fernando",
+      "area": "Transporte",
+      "estado": "Completado",
+      "fechaInicio": "2024-12-18",
+      "fechaCierre": "2024-12-19"
+    },
+    {
+      "id": 1734720865679,
+      "titulo": "Auditoría Interna",
+      "descripcion": "Preparación de documentos para auditoría interna.",
+      "estimado": "7",
+      "usuario": "Recoba Juan",
+      "area": "Archivo",
+      "estado": "Pendiente",
+      "fechaInicio": "2024-12-16",
+      "fechaCierre": null
+    },
+    {
+      "id": 1734720865680,
+      "titulo": "Mantenimiento de Servidores",
+      "descripcion": "Revisión de servidores en la oficina central.",
+      "estimado": "9",
+      "usuario": "Rojas Erick",
+      "area": "Soporte",
+      "estado": "Completado",
+      "fechaInicio": "2024-12-10",
+      "fechaCierre": "2024-12-12"
+    },
+    {
+      "id": 1734720865681,
+      "titulo": "Control de Inventarios",
+      "descripcion": "Actualización y control del inventario general.",
+      "estimado": "15",
+      "usuario": "Valverde Kevyn",
+      "area": "Contabilidad",
+      "estado": "En Proceso",
+      "fechaInicio": "2024-12-05",
+      "fechaCierre": null
+    },
+    {
+      "id": 1734720865682,
+      "titulo": "Optimización de Procesos",
+      "descripcion": "Revisión de procesos para optimización.",
+      "estimado": "20",
+      "usuario": "Jarez Eduardo",
+      "area": "Sistemas",
+      "estado": "Pendiente",
+      "fechaInicio": "2024-12-15",
+      "fechaCierre": null
     }
   ]
 }

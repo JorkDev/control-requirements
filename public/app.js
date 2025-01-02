@@ -39,7 +39,7 @@ async function eliminarRequerimiento(id) {
     } else {
         location.reload();
     }
-    
+
     await fetch(`${API_URL}/${id}`, { method: "DELETE" });
     mostrarAlerta("Requerimiento eliminado correctamente", "danger");
 }
@@ -193,13 +193,13 @@ async function init() {
         const isExpired = fechaCierre && fechaCierre < new Date(today);
         const isCulminado = req.estado === "Completado" && fechaCierre && fechaCierre <= new Date(today);
         const isInProccess = req.estado === "En Proceso";
-        
+
         const li = document.createElement("li");
         li.className = "list-group-item d-flex justify-content-between align-items-center";
         li.innerHTML = `
             <div>
                 <strong>${req.titulo}</strong> - ${req.estado}
-                ${isCulminado  ? '<span class="badge bg-success text-light ms-2">Culminado</span>'  : isExpired  ? '<span class="badge bg-danger ms-2">Vencido</span>' : isInProccess ? '<span class="badge bg-primary ms-2">En Proceso</span>' : ""}
+                ${isCulminado ? '<span class="badge bg-success text-light ms-2">Culminado</span>' : isExpired ? '<span class="badge bg-danger ms-2">Vencido</span>' : isInProccess ? '<span class="badge bg-primary ms-2">En Proceso</span>' : ""}
                 <br>
                 <small>Área: ${req.area}</small>
             </div>
@@ -238,7 +238,7 @@ function eliminar(id) {
     if (!confirmar) return;
 
     eliminarRequerimiento(id).then(() => location.reload());
-    if(eliminarRequerimiento){
+    if (eliminarRequerimiento) {
         mostrarAlerta("Punto de Control eliminado correctamente", "danger");
     }
 }

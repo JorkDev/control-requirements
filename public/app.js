@@ -113,6 +113,7 @@ async function exportarPDF(id) {
             }
         });
 
+        let totalAdditionalHours = 0;
         if (requerimiento.puntosDeControl && requerimiento.puntosDeControl.length > 0) {
             verificarSaltoPagina();
             pdf.setFontSize(14);
@@ -136,7 +137,9 @@ async function exportarPDF(id) {
                 let ajusteY = descripcionPDC.length * 5 + 5;
 
                 if (pdc.horasAdicionales) {
-                    pdf.text(`Horas Adicionales: ${pdc.horasAdicionales}`, 20, startY + 10 + ajusteY);
+                    const horasAdicionales = parseInt(pdc.horasAdicionales, 10) || 0;
+                    totalAdditionalHours += horasAdicionales;
+                    pdf.text(`Horas Adicionales: ${horasAdicionales}`, 20, startY + 10 + ajusteY);
                     ajusteY += 5;
                 }
                 if (pdc.nuevaFecha) {
@@ -147,10 +150,18 @@ async function exportarPDF(id) {
             });
         }
 
-        verificarSaltoPagina();
-        pdf.setFontSize(10);
-        pdf.setTextColor(150, 150, 150);
-        pdf.text("Generado automáticamente con el sistema", 105, 290, { align: "center" });
+        const totalEstimatedHours = parseInt(requerimiento.estimado, 10) || 0;
+        const totalHours = totalEstimatedHours + totalAdditionalHours;
+
+        pdf.addPage();
+        pdf.setFontSize(14);
+        pdf.setFont("helvetica", "bold");
+        pdf.text("Resumen de Horas", 10, startY);
+        pdf.setFontSize(12);
+        pdf.setFont("helvetica", "normal");
+        pdf.text(`Horas Estimadas: ${totalEstimatedHours}`, 10, startY + 10);
+        pdf.text(`Horas Adicionales: ${totalAdditionalHours}`, 10, startY + 20);
+        pdf.text(`Total de Horas: ${totalHours}`, 10, startY + 30);
 
         pdf.save(`requerimiento_${requerimiento.id}.pdf`);
     } catch (error) {

@@ -1,4 +1,5 @@
-const API_URL = "http://network.rushhosting.net:10013/requerimientos";
+import { API_URL } from './env.js';
+
 async function cargarRequerimientos() {
     const response = await fetch(API_URL);
     const data = await response.json();

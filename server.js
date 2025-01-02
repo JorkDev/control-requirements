@@ -1,9 +1,16 @@
+const dotenv = require('dotenv');
+
+const envFile = `.env.${process.env.NODE_ENV || 'development'}`;
+dotenv.config({ path: envFile });
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const path = require("path");
 const app = express();
-const PORT = 10013;
+
+const HOST = process.env.HOST || "localhost";
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -89,5 +96,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running at http://network.rushhosting.net:${PORT}`);
+    console.log(`Server running at http://${HOST}:${PORT}`);
 });

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte - Gestión de Requerimientos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-lg-flex justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="charts.html">Ver Gráficos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="guide.html">Guías</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4" id="report-title">Cargando...</h1>
+        <div id="report-content" class="text-center">
+            <canvas id="chartCanvas" style="max-width: 100%; height: 400px;"></canvas>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const reportType = urlParams.get("type");
+
+            if (!reportType) {
+                document.getElementById("report-title").innerText = "Error: No se especificó el tipo de reporte.";
+                document.getElementById("report-content").innerHTML = "";
+                return;
+            }
+
+            const reportTitle = {
+                permonth: "Reporte Mensual - Requerimientos de Áreas",
+                perhour: "Reporte - Rendimiento por Horas",
+                perstate: "Reporte - Distribución por Estado"
+            };
+
+            const chartLabels = {
+                permonth: ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
+                perhour: ["Usuario A", "Usuario B", "Usuario C"],
+                perstate: ["Pendientes", "En Proceso", "Completados"]
+            };
+
+            const chartData = {
+                permonth: [10, 20, 30, 40, 50],
+                perhour: [15, 25, 35],
+                perstate: [5, 10, 15]
+            };
+
+            if (reportTitle[reportType]) {
+                document.getElementById("report-title").innerText = reportTitle[reportType];
+
+                const ctx = document.getElementById("chartCanvas").getContext("2d");
+                new Chart(ctx, {
+                    type: "pie",
+                    data: {
+                        labels: chartLabels[reportType],
+                        datasets: [{
+                            data: chartData[reportType],
+                            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"]
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            } else {
+                document.getElementById("report-title").innerText = "Error: Tipo de reporte no válido.";
+                document.getElementById("report-content").innerHTML = "";
+            }
+        });
+    </script>
+</body>
+</html>

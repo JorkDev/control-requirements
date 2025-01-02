@@ -34,7 +34,7 @@ async function cargarRequerimiento() {
 
 function cargarPuntosDeControl(puntosDeControl) {
     const pdcContainer = document.getElementById("pdc-list");
-    pdcContainer.innerHTML = ""; // Limpiar lista previa
+    pdcContainer.innerHTML = "";
 
     puntosDeControl.forEach((pdc, index) => {
         const pdcForm = generarPDCForm(index, pdc.fecha, pdc.descripcion, pdc.horasAdicionales, pdc.nuevaFecha);

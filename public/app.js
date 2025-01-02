@@ -64,7 +64,7 @@ async function exportarPDF(id) {
 
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF();
-        const pageHeight = 297; // A4 page height in mm
+        const pageHeight = 297;
         const marginTop = 20;
         const marginBottom = 30;
         const lineHeight = 10;
@@ -179,7 +179,6 @@ async function exportarPDF(id) {
 }
 
 window.exportarPDF = exportarPDF;
-
 
 async function init() {
     const requerimientos = await cargarRequerimientos();

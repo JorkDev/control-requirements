@@ -64,30 +64,32 @@ async function exportarPDF(id) {
 
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF();
-        const pageHeight = 297;
+        const pageHeight = 297; // A4 page height in mm
         const marginTop = 20;
         const marginBottom = 30;
         const lineHeight = 10;
+        const contentHeight = pageHeight - marginTop - marginBottom;
 
-        let startY = marginTop;
+        let currentY = marginTop;
 
         const agregarEncabezado = () => {
             pdf.setFillColor(195, 181, 155);
-            pdf.rect(0, 0, 210, 30, "F");
+            pdf.rect(0, 0, 210, marginTop, "F");
             pdf.setTextColor(255, 255, 255);
-            pdf.setFontSize(20);
+            pdf.setFontSize(16);
             pdf.setFont("helvetica", "bold");
-            pdf.text("Detalles del Requerimiento", 105, 20, { align: "center" });
-            pdf.addImage(logo, "PNG", 10, 5, 70, 20);
+            pdf.text("Detalles del Requerimiento", 105, 15, { align: "center" });
+            pdf.addImage(logo, "PNG", 10, 5, 70, 15);
 
-            startY = marginTop + 30;
             pdf.setFont("helvetica", "normal");
             pdf.setTextColor(0, 0, 0);
             pdf.setFontSize(12);
+
+            currentY = marginTop + 10;
         };
 
-        const verificarSaltoPagina = () => {
-            if (startY > pageHeight - marginBottom) {
+        const verificarSaltoPagina = (neededHeight) => {
+            if (currentY + neededHeight > contentHeight) {
                 pdf.addPage();
                 agregarEncabezado();
             }
@@ -96,82 +98,78 @@ async function exportarPDF(id) {
         agregarEncabezado();
 
         const datos = [
-            ["ID", requerimiento.id],
-            ["Título", requerimiento.titulo],
+            ["ID", String(requerimiento.id)],
+            ["Título", requerimiento.titulo || "N/A"],
             ["Descripción", requerimiento.descripcion || "N/A"],
-            ["Horas Estimadas", requerimiento.estimado],
-            ["Usuario Asignado", requerimiento.usuario],
-            ["Área", requerimiento.area],
-            ["Estado", requerimiento.estado],
-            ["Fecha de Inicio", requerimiento.fechaInicio],
+            ["Horas Estimadas", String(requerimiento.estimado || 0)],
+            ["Usuario Asignado", requerimiento.usuario || "No asignado"],
+            ["Área", requerimiento.area || "Sin área"],
+            ["Estado", requerimiento.estado || "Indefinido"],
+            ["Fecha de Inicio", requerimiento.fechaInicio || "No definida"],
             ["Fecha de Cierre", requerimiento.fechaCierre || "No definida"]
         ];
 
         datos.forEach(([key, value]) => {
-            verificarSaltoPagina();
+            const estimatedHeight = lineHeight;
+            verificarSaltoPagina(estimatedHeight);
+
             pdf.setFont("helvetica", "bold");
-            pdf.text(`${key}:`, 10, startY);
+            pdf.text(`${key}:`, 10, currentY);
 
             pdf.setFont("helvetica", "normal");
-            if (key === "Descripción") {
-                const text = pdf.splitTextToSize(value, 150);
-                pdf.text(text, 50, startY);
-                startY += text.length * 5;
-            } else {
-                pdf.text(`${value}`, 50, startY);
-                startY += lineHeight;
-            }
+            const text = key === "Descripción" ? pdf.splitTextToSize(String(value), 150) : [String(value)];
+            pdf.text(text, 50, currentY);
+
+            currentY += lineHeight + (text.length - 1) * 5;
         });
 
         let totalAdditionalHours = 0;
         if (requerimiento.puntosDeControl && requerimiento.puntosDeControl.length > 0) {
-            verificarSaltoPagina();
-            pdf.setFontSize(14);
-            pdf.text("Puntos de Control", 10, startY);
-            startY += lineHeight;
+            verificarSaltoPagina(lineHeight);
+            pdf.setFontSize(12);
+            pdf.setFont("helvetica", "bold");
+            pdf.text("Puntos de Control", 10, currentY);
+            currentY += lineHeight;
 
-            const pdcsOrdenados = requerimiento.puntosDeControl.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+            requerimiento.puntosDeControl.forEach((pdc, index) => {
+                verificarSaltoPagina(lineHeight * 5);
 
-            pdcsOrdenados.forEach((pdc, index) => {
-                verificarSaltoPagina();
-                pdf.setFontSize(12);
                 pdf.setFont("helvetica", "bold");
-                pdf.text(`PDC ${index + 1}:`, 10, startY);
+                pdf.text(`PDC ${index + 1}:`, 10, currentY);
 
                 pdf.setFont("helvetica", "normal");
-                pdf.text(`Fecha: ${pdc.fecha}`, 20, startY + 5);
+                currentY += lineHeight;
 
-                const descripcionPDC = pdf.splitTextToSize(`Descripción: ${pdc.descripcion}`, 140);
-                pdf.text(descripcionPDC, 20, startY + 10);
+                pdf.text(`Fecha: ${pdc.fecha}`, 20, currentY);
+                currentY += lineHeight;
 
-                let ajusteY = descripcionPDC.length * 5 + 5;
+                const descripcion = pdf.splitTextToSize(`Descripción: ${pdc.descripcion}`, 170);
+                pdf.text(descripcion, 20, currentY);
+                currentY += descripcion.length * 5 + lineHeight;
 
                 if (pdc.horasAdicionales) {
-                    const horasAdicionales = parseInt(pdc.horasAdicionales, 10) || 0;
-                    totalAdditionalHours += horasAdicionales;
-                    pdf.text(`Horas Adicionales: ${horasAdicionales}`, 20, startY + 10 + ajusteY);
-                    ajusteY += 5;
+                    totalAdditionalHours += parseInt(pdc.horasAdicionales, 10) || 0;
+                    pdf.text(`Horas Adicionales: ${pdc.horasAdicionales}`, 20, currentY);
+                    currentY += lineHeight;
                 }
                 if (pdc.nuevaFecha) {
-                    pdf.text(`Nueva Fecha: ${pdc.nuevaFecha}`, 20, startY + 10 + ajusteY);
+                    pdf.text(`Nueva Fecha: ${pdc.nuevaFecha}`, 20, currentY);
+                    currentY += lineHeight;
                 }
-
-                startY += ajusteY + 15;
             });
         }
 
         const totalEstimatedHours = parseInt(requerimiento.estimado, 10) || 0;
         const totalHours = totalEstimatedHours + totalAdditionalHours;
 
-        pdf.addPage();
-        pdf.setFontSize(14);
+        verificarSaltoPagina(lineHeight * 3);
         pdf.setFont("helvetica", "bold");
-        pdf.text("Resumen de Horas", 10, startY);
-        pdf.setFontSize(12);
+        pdf.text("Resumen de Horas", 10, currentY);
+
         pdf.setFont("helvetica", "normal");
-        pdf.text(`Horas Estimadas: ${totalEstimatedHours}`, 10, startY + 10);
-        pdf.text(`Horas Adicionales: ${totalAdditionalHours}`, 10, startY + 20);
-        pdf.text(`Total de Horas: ${totalHours}`, 10, startY + 30);
+        pdf.text(`Horas Estimadas: ${totalEstimatedHours}`, 10, currentY + 10);
+        pdf.text(`Horas Adicionales: ${totalAdditionalHours}`, 10, currentY + 20);
+        pdf.text(`Total de Horas: ${totalHours}`, 10, currentY + 30);
 
         pdf.save(`requerimiento_${requerimiento.id}.pdf`);
     } catch (error) {
@@ -179,6 +177,9 @@ async function exportarPDF(id) {
         alert("No se pudo exportar el requerimiento a PDF.");
     }
 }
+
+window.exportarPDF = exportarPDF;
+
 
 async function init() {
     const requerimientos = await cargarRequerimientos();

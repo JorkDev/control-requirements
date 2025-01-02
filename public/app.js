@@ -1,4 +1,13 @@
-import { API_URL } from './env.js';
+let API_URL = "";
+
+async function loadEnv() {
+    const response = await fetch("/env");
+    if (!response.ok) throw new Error("Failed to load environment variables");
+    const env = await response.json();
+    API_URL = env.API_URL;
+}
+
+await loadEnv();
 
 async function cargarRequerimientos() {
     const response = await fetch(API_URL);

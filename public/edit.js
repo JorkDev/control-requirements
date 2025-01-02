@@ -1,4 +1,14 @@
-const API_URL = "http://network.rushhosting.net:10013/requerimientos";
+let API_URL = "";
+
+async function loadEnv() {
+    const response = await fetch("/env");
+    if (!response.ok) throw new Error("Failed to load environment variables");
+    const env = await response.json();
+    API_URL = env.API_URL;
+}
+
+await loadEnv();
+
 const params = new URLSearchParams(window.location.search);
 const id = parseInt(params.get("id"));
 

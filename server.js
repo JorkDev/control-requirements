@@ -95,6 +95,11 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+app.get("/env", (req, res) => {
+    const apiUrl = `${process.env.HOST || 'http://localhost'}:${process.env.PORT || 3000}/requerimientos`;
+    res.json({ API_URL: apiUrl });
+});
+
 app.listen(PORT, () => {
-    console.log(`Server running at http://${HOST}:${PORT}`);
+    console.log(`Server running at ${HOST}:${PORT}`);
 });
